@@ -155,9 +155,9 @@ export default function AboutSection() {
                   className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-xl"
                 />
                 <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg shadow-blue-500/50">
-  {about.image_url ? (
+  {about.photo_url ? (
     <img
-      src={about.image_url}
+      src={about.photo_url}
       alt="Vikrant Singh"
       className="w-full h-full object-cover"
     />
