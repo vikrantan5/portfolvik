@@ -33,7 +33,7 @@ export default function Footer() {
           <span>© 2025 Vikrant Singh</span>
           <span>|</span>
           <span className="flex items-center gap-1">
-            Built with <Heart size={16} className="text-red-500 fill-red-500 animate-pulse" /> using React.js
+            Built with <Heart size={16} className="text-red-500 fill-red-500 animate-pulse" />
           </span>
         </p>
       </div>
