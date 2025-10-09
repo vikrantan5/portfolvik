@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Lock, Mail } from 'lucide-react';
+import { Lock, Mail, ArrowLeft } from 'lucide-react';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,50 +30,76 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className={`min-h-screen flex items-center justify-center px-4 transition-colors duration-300 ${
+      theme === 'dark'
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'
+        : 'bg-gradient-to-br from-blue-50 via-white to-cyan-50'
+    }`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-md w-full"
       >
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
             Admin Login
           </h1>
-          <p className="text-gray-400">Sign in to edit your portfolio</p>
+          <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
+            Sign in to edit your portfolio
+          </p>
         </div>
 
-        <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700">
+        <div className={`backdrop-blur-sm p-6 sm:p-8 rounded-2xl border ${
+          theme === 'dark'
+            ? 'bg-gray-800/50 border-gray-700'
+            : 'bg-white/70 border-gray-200 shadow-xl'
+        }`}>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className={`block text-sm font-medium mb-2 ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 ${
+                  theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                }`} size={20} />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-900 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border focus:border-blue-500 focus:outline-none transition-colors ${
+                    theme === 'dark'
+                      ? 'bg-gray-900 text-white border-gray-700'
+                      : 'bg-gray-50 text-gray-900 border-gray-300'
+                  }`}
                   placeholder="admin@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className={`block text-sm font-medium mb-2 ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${
+                  theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                }`} size={20} />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-900 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border focus:border-blue-500 focus:outline-none transition-colors ${
+                    theme === 'dark'
+                      ? 'bg-gray-900 text-white border-gray-700'
+                      : 'bg-gray-50 text-gray-900 border-gray-300'
+                  }`}
                   placeholder="••••••••"
                 />
               </div>
@@ -90,19 +118,24 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-500/30"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <a
-              href="/"
-              className="text-sm text-gray-400 hover:text-white transition-colors"
+            <button
+              onClick={() => navigate('/')}
+              className={`inline-flex items-center gap-2 text-sm transition-colors ${
+                theme === 'dark'
+                  ? 'text-gray-400 hover:text-white'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
             >
+              <ArrowLeft size={16} />
               Back to Portfolio
-            </a>
+            </button>
           </div>
         </div>
       </motion.div>

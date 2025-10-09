@@ -2,11 +2,13 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { useState, useEffect } from 'react';
 import { Quote } from 'lucide-react';
 
 export default function AboutSection() {
   const { isEditMode } = useAuth();
+  const { theme } = useTheme();
   const [editData, setEditData] = useState({ description: '', quote: '' });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -73,12 +75,16 @@ export default function AboutSection() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="space-y-4 bg-gray-900/50 p-8 rounded-xl backdrop-blur-sm"
+            className={`space-y-4 p-6 sm:p-8 rounded-xl backdrop-blur-sm ${
+              theme === 'dark' ? 'bg-gray-900/50' : 'bg-white/50'
+            }`}
           >
             <textarea
               value={editData.description}
               onChange={(e) => setEditData({ ...editData, description: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg"
+              className={`w-full px-4 py-2 rounded-lg ${
+                theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+              }`}
               rows={8}
               placeholder="About description"
             />
@@ -86,7 +92,9 @@ export default function AboutSection() {
               type="text"
               value={editData.quote}
               onChange={(e) => setEditData({ ...editData, quote: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg"
+              className={`w-full px-4 py-2 rounded-lg ${
+                theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-900'
+              }`}
               placeholder="Quote"
             />
             <div className="flex gap-4">
@@ -112,14 +120,22 @@ export default function AboutSection() {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <p className="text-lg text-gray-300 leading-relaxed">
+              <p className={`text-base sm:text-lg leading-relaxed ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
                 {about.description}
               </p>
 
               {about.quote && (
-                <div className="relative p-6 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-xl border border-blue-500/20">
+                <div className={`relative p-6 rounded-xl border ${
+                  theme === 'dark'
+                    ? 'bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border-blue-500/20'
+                    : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200'
+                }`}>
                   <Quote className="absolute top-4 left-4 text-blue-500/20" size={48} />
-                  <p className="text-gray-300 italic pl-12">
+                  <p className={`italic pl-12 ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                     {about.quote}
                   </p>
                 </div>
