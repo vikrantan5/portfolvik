@@ -154,9 +154,20 @@ export default function AboutSection() {
                   transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                   className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-xl"
                 />
-                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-9xl font-bold text-white">
-                  {about.description.charAt(0)}
-                </div>
+                <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg shadow-blue-500/50">
+  {about.image_url ? (
+    <img
+      src={about.image_url}
+      alt="Vikrant Singh"
+      className="w-full h-full object-cover"
+    />
+  ) : (
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-cyan-600 text-9xl font-bold text-white">
+      {about.description.charAt(0)}
+    </div>
+  )}
+</div>
+
               </div>
             </motion.div>
           </div>
