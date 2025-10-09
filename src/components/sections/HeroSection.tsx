@@ -129,13 +129,31 @@ export default function HeroSection() {
               transition={{ duration: 0.5 }}
               className="mb-8"
             >
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-4xl sm:text-5xl font-bold text-white shadow-lg shadow-blue-500/50"
-              >
-                {hero.name.charAt(0)}
-              </motion.div>
+             <motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ duration: 0.5 }}
+  className="mb-8"
+>
+  <motion.div
+    animate={{ y: [0, -10, 0] }}
+    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+    className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-8 rounded-full overflow-hidden shadow-lg shadow-blue-500/50"
+  >
+    {hero.avatar_url ? (
+      <img
+        src={hero.avatar_url}
+        alt={hero.name}
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-cyan-500 text-4xl sm:text-5xl font-bold text-white">
+        {hero.name.charAt(0)}
+      </div>
+    )}
+  </motion.div>
+</motion.div>
+
             </motion.div>
 
             <motion.h1
