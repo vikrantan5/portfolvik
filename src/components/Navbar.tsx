@@ -32,13 +32,12 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <motion.a
+          <a
             href="#"
-            whileHover={{ scale: 1.05 }}
             className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
           >
             VS
-          </motion.a>
+          </a>
 
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
@@ -58,9 +57,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={toggleTheme}
               className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors ${
                 theme === 'dark'
@@ -70,30 +67,26 @@ export default function Navbar() {
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
+            </button>
 
             {!user && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => navigate('/admin')}
                 className="hidden sm:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-lg transition-all text-sm font-medium"
               >
                 <Settings size={16} />
                 Admin
-              </motion.button>
+              </button>
             )}
 
             {user && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => signOut()}
                 className="hidden md:flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm font-medium"
               >
                 <LogOut size={18} />
                 Logout
-              </motion.button>
+              </button>
             )}
 
             <button
