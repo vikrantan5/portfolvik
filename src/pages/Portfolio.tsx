@@ -1,4 +1,3 @@
-import ThreeBackground from '../components/ThreeBackground';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
@@ -20,7 +19,6 @@ export default function Portfolio() {
         ? 'bg-gray-900 text-white'
         : 'bg-gray-50 text-gray-900'
     }`}>
-      <ThreeBackground />
       <Navbar />
       <main className="pt-16">
         <HeroSection />
