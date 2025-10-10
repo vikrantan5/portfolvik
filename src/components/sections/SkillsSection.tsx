@@ -4,6 +4,9 @@ import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import * as Icons from 'lucide-react';
+import ThreeBackground from '../three/ThreeBackground';
+import InteractiveSphere from '../three/InteractiveSphere';
+import FloatingParticles from '../three/FloatingParticles';
 
 type IconName = keyof typeof Icons;
 
@@ -31,10 +34,14 @@ export default function SkillsSection() {
   };
 
   return (
-    <section id="skills" className={`py-20 px-4 transition-colors duration-300 ${
+    <section id="skills" className={`py-20 px-4 transition-colors duration-300 relative overflow-hidden ${
       theme === 'dark' ? 'bg-gray-900/30' : 'bg-gray-100'
     }`}>
-      <div className="max-w-6xl mx-auto">
+      <ThreeBackground>
+        <InteractiveSphere />
+        <FloatingParticles count={80} />
+      </ThreeBackground>
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

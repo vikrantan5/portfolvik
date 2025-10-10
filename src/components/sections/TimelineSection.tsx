@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { Briefcase, GraduationCap, Trophy } from 'lucide-react';
+import ThreeBackground from '../three/ThreeBackground';
+import ParticleField from '../three/ParticleField';
 
 export default function TimelineSection() {
   const { isEditMode } = useAuth();
@@ -44,8 +46,11 @@ export default function TimelineSection() {
   });
 
   return (
-    <section id="timeline" className="py-20 px-4 bg-gray-900/30">
-      <div className="max-w-6xl mx-auto">
+    <section id="timeline" className="py-20 px-4 bg-gray-900/30 relative overflow-hidden">
+      <ThreeBackground>
+        <ParticleField />
+      </ThreeBackground>
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
