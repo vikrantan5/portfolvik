@@ -65,7 +65,6 @@ export default function SkillsSection() {
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.1 }}
-                      whileHover={{ scale: 1.05, y: -5 }}
                       className="relative group"
                     >
                       <div className={`rounded-xl border transition-all duration-300 p-4 sm:p-6 ${

@@ -149,11 +149,6 @@ export default function AboutSection() {
               className="relative"
             >
               <div className="relative w-full aspect-square max-w-md mx-auto">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 blur-xl"
-                />
                 <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg shadow-blue-500/50">
   {about.photo_url ? (
     <img
@@ -166,8 +161,7 @@ export default function AboutSection() {
       {about.description.charAt(0)}
     </div>
   )}
-</div>
-
+                </div>
               </div>
             </motion.div>
           </div>

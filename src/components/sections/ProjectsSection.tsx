@@ -42,7 +42,6 @@ export default function ProjectsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              whileHover={{ y: -10 }}
               className="group relative"
             >
               <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300">
