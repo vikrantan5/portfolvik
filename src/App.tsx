@@ -11,6 +11,11 @@ import SkillsManager from './pages/admin/SkillsManager';
 import ProjectsManager from './pages/admin/ProjectsManager';
 import ExperienceManager from './pages/admin/ExperienceManager';
 import EducationManager from './pages/admin/EducationManager';
+import AchievementsManager from './pages/admin/AchievementsManager';
+import ContentManager from './pages/admin/ContentManager';
+import TestimonialsManager from './pages/admin/TestimonialsManager';
+import ContactInfoManager from './pages/admin/ContactInfoManager';
+import MessagesManager from './pages/admin/MessagesManager';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,11 +42,11 @@ function App() {
               <Route path="/admin/projects" element={<ProjectsManager />} />
               <Route path="/admin/experience" element={<ExperienceManager />} />
               <Route path="/admin/education" element={<EducationManager />} />
-              <Route path="/admin/achievements" element={<AdminDashboard />} />
-              <Route path="/admin/content" element={<AdminDashboard />} />
-              <Route path="/admin/testimonials" element={<AdminDashboard />} />
-              <Route path="/admin/contact-info" element={<AdminDashboard />} />
-              <Route path="/admin/messages" element={<AdminDashboard />} />
+              <Route path="/admin/achievements" element={<AchievementsManager />} />
+              <Route path="/admin/content" element={<ContentManager />} />
+              <Route path="/admin/testimonials" element={<TestimonialsManager />} />
+              <Route path="/admin/contact-info" element={<ContactInfoManager />} />
+              <Route path="/admin/messages" element={<MessagesManager />} />
             </Routes>
           </Router>
         </AuthProvider>
