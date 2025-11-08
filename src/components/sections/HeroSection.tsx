@@ -49,19 +49,29 @@ export default function HeroSection() {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    if (!hero?.tagline) return;
+  // derive a display object so the section still renders when the DB row is missing
+  const displayHero =
+    hero ?? {
+      name: 'Your Name',
+      profession: 'Web Developer',
+      tagline: 'I build accessible, fast, and beautiful web experiences.',
+      avatar_url: '',
+      resume_url: '',
+    };
 
-    if (currentIndex < hero.tagline.length) {
+  const tagline = displayHero.tagline;
+
+  useEffect(() => {
+    if (!tagline) return;
+
+    if (currentIndex < tagline.length) {
       const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + hero.tagline[currentIndex]);
+        setDisplayedText(prev => prev + tagline[currentIndex]);
         setCurrentIndex(prev => prev + 1);
       }, 50);
       return () => clearTimeout(timeout);
     }
-  }, [currentIndex, hero?.tagline]);
-
-  if (!hero) return null;
+  }, [currentIndex, tagline]);
 
   return (
     <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
@@ -134,15 +144,11 @@ export default function HeroSection() {
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-8 rounded-full overflow-hidden shadow-lg shadow-blue-500/50"
               >
-                {hero.avatar_url ? (
-                  <img
-                    src={hero.avatar_url}
-                    alt={hero.name}
-                    className="w-full h-full object-cover"
-                  />
+                {displayHero.avatar_url ? (
+                  <img src={displayHero.avatar_url} alt={displayHero.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-cyan-500 text-4xl sm:text-5xl font-bold text-white">
-                    {hero.name.charAt(0)}
+                    {displayHero.name.charAt(0)}
                   </div>
                 )}
               </motion.div>
@@ -154,7 +160,7 @@ export default function HeroSection() {
               transition={{ delay: 0.2 }}
               className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent px-4"
             >
-              {hero.name}
+              {displayHero.name}
             </motion.h1>
 
             <motion.h2
@@ -165,7 +171,7 @@ export default function HeroSection() {
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               }`}
             >
-              {hero.profession}
+              {displayHero.profession}
             </motion.h2>
 
             <motion.p
@@ -193,9 +199,9 @@ export default function HeroSection() {
                 <Mail size={20} />
                 Hire Me
               </a>
-              {hero.resume_url && (
+              {displayHero.resume_url && (
                 <a
-                  href={hero.resume_url}
+                  href={displayHero.resume_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-2 border ${

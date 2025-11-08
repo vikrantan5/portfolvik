@@ -45,7 +45,14 @@ export default function AboutSection() {
     }
   };
 
-  if (!about) return null;
+  // show a local fallback when the DB row is missing so the section remains visible
+  const displayAbout =
+    about ?? {
+      description:
+        'Hello! I’m Vikrant — a passionate developer building delightful web experiences. Add your about content in the admin dashboard to replace this text.',
+      quote: '',
+      photo_url: '',
+    };
 
   return (
     <section id="about" className="py-20 px-4 relative overflow-hidden">
@@ -123,10 +130,10 @@ export default function AboutSection() {
               <p className={`text-base sm:text-lg leading-relaxed ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               }`}>
-                {about.description}
+                {displayAbout.description}
               </p>
 
-              {about.quote && (
+              {displayAbout.quote && (
                 <div className={`relative p-6 rounded-xl border ${
                   theme === 'dark'
                     ? 'bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border-blue-500/20'
@@ -136,7 +143,7 @@ export default function AboutSection() {
                   <p className={`italic pl-12 ${
                     theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                    {about.quote}
+                    {displayAbout.quote}
                   </p>
                 </div>
               )}
@@ -150,17 +157,13 @@ export default function AboutSection() {
             >
               <div className="relative w-full aspect-square max-w-md mx-auto">
                 <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg shadow-blue-500/50">
-  {about.photo_url ? (
-    <img
-      src={about.photo_url}
-      alt="Vikrant Singh"
-      className="w-full h-full object-cover"
-    />
-  ) : (
-    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-cyan-600 text-9xl font-bold text-white">
-      {about.description.charAt(0)}
-    </div>
-  )}
+                {displayAbout.photo_url ? (
+                  <img src={displayAbout.photo_url} alt="Vikrant Singh" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-cyan-600 text-9xl font-bold text-white">
+                    {(displayAbout.description || 'V').charAt(0)}
+                  </div>
+                )}
                 </div>
               </div>
             </motion.div>

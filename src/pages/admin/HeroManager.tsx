@@ -43,12 +43,18 @@ export default function HeroManager() {
 
   const updateMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      if (!hero) return;
-      const { error } = await supabase
-        .from('hero_section')
-        .update(data)
-        .eq('id', hero.id);
-      if (error) throw error;
+      if (hero) {
+        const { error } = await supabase
+          .from('hero_section')
+          .update(data)
+          .eq('id', hero.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('hero_section')
+          .insert([data]);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['hero'] });

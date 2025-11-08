@@ -39,12 +39,18 @@ export default function AboutManager() {
 
   const updateMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      if (!about) return;
-      const { error } = await supabase
-        .from('about_me')
-        .update(data)
-        .eq('id', about.id);
-      if (error) throw error;
+      if (about) {
+        const { error } = await supabase
+          .from('about_me')
+          .update(data)
+          .eq('id', about.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('about_me')
+          .insert([data]);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['about'] });
