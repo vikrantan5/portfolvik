@@ -3,8 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { Github, ExternalLink, Star } from 'lucide-react';
-import ThreeBackground from '../three/ThreeBackground';
-import GeometricShapes from '../three/GeometricShapes';
 
 export default function ProjectsSection() {
   const { isEditMode } = useAuth();
@@ -23,9 +21,6 @@ export default function ProjectsSection() {
 
   return (
     <section id="projects" className="py-20 px-4 relative overflow-hidden">
-      <ThreeBackground>
-        <GeometricShapes />
-      </ThreeBackground>
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -3,8 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { Mail, MapPin, Phone, Github, Linkedin, Youtube, Instagram, Twitter } from 'lucide-react';
 import { useState } from 'react';
-import ThreeBackground from '../three/ThreeBackground';
-import GlowingOrbs from '../three/GlowingOrbs';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -55,9 +53,6 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="py-20 px-4 relative overflow-hidden">
-      <ThreeBackground>
-        <GlowingOrbs />
-      </ThreeBackground>
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

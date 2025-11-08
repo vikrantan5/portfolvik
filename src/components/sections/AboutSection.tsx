@@ -5,8 +5,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useState, useEffect } from 'react';
 import { Quote } from 'lucide-react';
-import ThreeBackground from '../three/ThreeBackground';
-import WaveMesh from '../three/WaveMesh';
 
 export default function AboutSection() {
   const { isEditMode } = useAuth();
@@ -51,9 +49,6 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="py-20 px-4 relative overflow-hidden">
-      <ThreeBackground>
-        <WaveMesh />
-      </ThreeBackground>
       <div className="max-w-6xl mx-auto relative z-10">
         {isEditMode && !isEditing && (
           <button

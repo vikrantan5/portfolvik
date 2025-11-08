@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin User</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #60a5fa;
+        }
+        button {
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background: #374151;
+        }
+        .success {
+            background: #065f46;
+        }
+        .error {
+            background: #7f1d1d;
+        }
+        .credentials {
+            background: #1e40af;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .credentials div {
+            margin: 8px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Admin User</h1>
+        <p>Click the button below to create an admin user for your portfolio.</p>
+        <button onclick="createAdmin()">Create Admin User</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const { createClient } = supabase;
+        
+        const supabaseUrl = 'https://fffgleifllmvpfzhmhbq.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmZmdsZWlmbGxtdnBmemhtaGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NjQ0OTcsImV4cCI6MjA3ODE0MDQ5N30._UGnjDeA9MsFHXnD_ntOJMBnZNjTejTW70Ak0Zd0nAA';
+        
+        const sb = createClient(supabaseUrl, supabaseKey);
+
+        async function createAdmin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Creating admin user...</p>';
+
+            const email = 'admin@portfolio.com';
+            const password = 'Admin@123456';
+
+            try {
+                const { data, error } = await sb.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        emailRedirectTo: window.location.origin
+                    }
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                resultDiv.innerHTML = `
+                    <div class="result success">
+                        <h3>✅ Admin User Created Successfully!</h3>
+                        <div class="credentials">
+                            <h4>📧 Login Credentials:</h4>
+                            <div><strong>Email:</strong> ${email}</div>
+                            <div><strong>Password:</strong> ${password}</div>
+                            <div style="margin-top: 10px;"><strong>Login URL:</strong> <a href="${window.location.origin}/admin" style="color: #60a5fa;">${window.location.origin}/admin</a></div>
+                        </div>
+                        <p style="margin-top: 15px;"><em>Note: Please check your email to verify the account if required by your Supabase settings.</em></p>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error Creating Admin User</h3>
+                        <p>${error.message}</p>
+                        ${error.message.includes('already registered') ? '<p><strong>This email is already registered. You can use these credentials to login:</strong></p><div class="credentials"><div><strong>Email:</strong> ' + email + '</div><div><strong>Password:</strong> ' + password + '</div></div>' : ''}
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

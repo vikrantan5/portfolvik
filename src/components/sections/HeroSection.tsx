@@ -5,9 +5,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Download, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import ThreeBackground from '../three/ThreeBackground';
-import FloatingParticles from '../three/FloatingParticles';
-import RotatingTorus from '../three/RotatingTorus';
 
 export default function HeroSection() {
   const { isEditMode } = useAuth();
@@ -68,10 +65,6 @@ export default function HeroSection() {
 
   return (
     <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
-      <ThreeBackground>
-        <FloatingParticles count={150} />
-        <RotatingTorus />
-      </ThreeBackground>
       <div className="max-w-4xl mx-auto text-center relative z-10">
         {isEditMode && !isEditing && (
           <button
