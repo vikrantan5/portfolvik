@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 export default function HeroSection() {
   const { isEditMode } = useAuth();
   const { theme } = useTheme();
+  const queryClient = useQueryClient();
   const [editData, setEditData] = useState({ name: '', profession: '', tagline: '' });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -22,7 +23,33 @@ export default function HeroSection() {
       if (error) throw error;
       return data;
     },
+    staleTime: 0, // Always consider data stale to force refetch
+    refetchOnMount: true, // Refetch when component mounts
+    refetchInterval: 5000, // Refetch every 5 seconds for live updates
   });
+
+  // Setup real-time subscription for live updates
+  useEffect(() => {
+    const channel = supabase
+      .channel('hero_section_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'hero_section',
+        },
+        () => {
+          // Invalidate and refetch when data changes
+          queryClient.invalidateQueries({ queryKey: ['hero'] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   useEffect(() => {
     if (hero && isEditing) {
@@ -52,7 +79,7 @@ export default function HeroSection() {
   // derive a display object so the section still renders when the DB row is missing
   const displayHero =
     hero ?? {
-      name: 'Your Name',
+      name: 'Vikrant Singh',
       profession: 'Web Developer',
       tagline: 'I build accessible, fast, and beautiful web experiences.',
       avatar_url: '',

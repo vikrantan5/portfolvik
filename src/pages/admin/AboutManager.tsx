@@ -39,25 +39,35 @@ export default function AboutManager() {
 
   const updateMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      if (about) {
-        const { error } = await supabase
+      if (about?.id) {
+        // Update existing record
+        const { data: updateData, error } = await supabase
           .from('about_me')
           .update(data)
-          .eq('id', about.id);
+          .eq('id', about.id)
+          .select()
+          .single();
         if (error) throw error;
+        return updateData;
       } else {
-        const { error } = await supabase
+        // Insert new record
+        const { data: insertData, error } = await supabase
           .from('about_me')
-          .insert([data]);
+          .insert([data])
+          .select()
+          .single();
         if (error) throw error;
+        return insertData;
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['about'] });
-      alert('About section updated successfully!');
+      queryClient.setQueryData(['about'], data);
+      alert('✅ About section updated successfully! Changes will appear on your portfolio immediately.');
     },
-    onError: (error) => {
-      alert('Error updating about section: ' + error.message);
+    onError: (error: any) => {
+      console.error('About update error:', error);
+      alert('❌ Error updating about section: ' + error.message);
     }
   });
 

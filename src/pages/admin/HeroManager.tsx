@@ -43,25 +43,35 @@ export default function HeroManager() {
 
   const updateMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      if (hero) {
-        const { error } = await supabase
+      if (hero?.id) {
+        // Update existing record
+        const { data: updateData, error } = await supabase
           .from('hero_section')
           .update(data)
-          .eq('id', hero.id);
+          .eq('id', hero.id)
+          .select()
+          .single();
         if (error) throw error;
+        return updateData;
       } else {
-        const { error } = await supabase
+        // Insert new record
+        const { data: insertData, error } = await supabase
           .from('hero_section')
-          .insert([data]);
+          .insert([data])
+          .select()
+          .single();
         if (error) throw error;
+        return insertData;
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['hero'] });
-      alert('Hero section updated successfully!');
+      queryClient.setQueryData(['hero'], data);
+      alert('✅ Hero section updated successfully! Changes will appear on your portfolio immediately.');
     },
-    onError: (error) => {
-      alert('Error updating hero section: ' + error.message);
+    onError: (error: any) => {
+      console.error('Hero update error:', error);
+      alert('❌ Error updating hero section: ' + error.message);
     }
   });
 

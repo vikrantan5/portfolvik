@@ -20,7 +20,9 @@ import MessagesManager from './pages/admin/MessagesManager';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true, // Enable refetch when window gains focus
+      refetchOnMount: true, // Refetch when component mounts
+      staleTime: 1000 * 30, // Consider data stale after 30 seconds
       retry: 1,
     },
   },

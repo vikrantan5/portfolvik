@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -9,6 +9,7 @@ import { Quote } from 'lucide-react';
 export default function AboutSection() {
   const { isEditMode } = useAuth();
   const { theme } = useTheme();
+  const queryClient = useQueryClient();
   const [editData, setEditData] = useState({ description: '', quote: '' });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -22,7 +23,33 @@ export default function AboutSection() {
       if (error) throw error;
       return data;
     },
+    staleTime: 0, // Always consider data stale to force refetch
+    refetchOnMount: true, // Refetch when component mounts
+    refetchInterval: 5000, // Refetch every 5 seconds for live updates
   });
+
+  // Setup real-time subscription for live updates
+  useEffect(() => {
+    const channel = supabase
+      .channel('about_me_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'about_me',
+        },
+        () => {
+          // Invalidate and refetch when data changes
+          queryClient.invalidateQueries({ queryKey: ['about'] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
 
   useEffect(() => {
     if (about && isEditing) {
